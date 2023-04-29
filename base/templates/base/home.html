@@ -4,4 +4,17 @@
 
 <h1> HOME Template</h1>
 
+<div>
+
+    <div> 
+        {% for chatroom in rooms %}
+
+         <div>
+            <h5> {{room.id}} -- {{room.name}} </h5>
+         </div>
+
+         {% endfor %}
+    </div>
+</div>
+
 {% endblock %}

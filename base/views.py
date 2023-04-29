@@ -5,13 +5,13 @@ from django.shortcuts import render
 
 rooms = [
     {id:1, "name": 'Python Chatroom'},
-    {id:1, "name": 'JavaScript Chatroom'}, 
-    {id:1, "name": 'Ruby Chatroom'}, 
-    {id:1, "name": 'Java Chatroom'},
+    {id:2, "name": 'JavaScript Chatroom'}, 
+    {id:3, "name": 'Ruby Chatroom'}, 
+    {id:4, "name": 'Java Chatroom'},
 ]
 
 def home(request):
-    return render(request=request, template_name="base/home.html")
+    return render(request,"base/home.html",{'chatrooms' : rooms})
     #return HttpResponse('Home Page')
 
 
