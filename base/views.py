@@ -18,10 +18,7 @@ def home(request):
 
 
 def rooms(request, pk):
-    room = None
-    for i in chatrooms:
-        if i[id] == int(pk):
-         room = i
-    context = {'room' : room}
+    room = Room.objects.get(id = pk)
+    context = {'room': room}
     return render(request, "base/room.html", context)
     #return HttpResponse('Rooms')
