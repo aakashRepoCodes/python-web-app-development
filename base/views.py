@@ -2,6 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.db.models import Q
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import Room, Topic, User
 from .forms import RoomForm
@@ -42,6 +43,7 @@ def rooms(request, pk):
     # return HttpResponse('Rooms')
 
 
+@login_required(login_url="/login")
 def create_room(request):
     form = RoomForm()
     context = {"form": form}
@@ -54,6 +56,7 @@ def create_room(request):
     return render(request, "base/room_form.html", context)
 
 
+@login_required(login_url="/login")
 def update_room(request, pk):
     room = Room.objects.get(id=pk)
     form = RoomForm(instance=room)
@@ -68,6 +71,7 @@ def update_room(request, pk):
     return render(request, "base/room_form.html", context)
 
 
+@login_required(login_url="/login")
 def delete_room(request, pk):
     room = Room.objects.get(id=pk)
 
