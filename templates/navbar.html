@@ -2,4 +2,31 @@
     <h1> AppLogo </h1>
 </a>
 
+
+
+<form method="GET" action="{% url 'home'%}">
+
+    <input type="text" name="q" placeholder="Search Rooms...">
+
+</form>
+
+
+{% if request.user.is_authenticated %}
+<a href="/logout">
+    <h3> Logout </h3>
+</a>
+{% else %}
+<a href="/login">
+    <h3> Login </h3>
+</a>
+{% endif %}
+
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+        {% endfor %}
+</ul>
+{% endif %}
+
 <hr>
