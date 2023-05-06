@@ -1,7 +1,8 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.db.models import Q
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
 from .models import Room, Topic, User
 from .forms import RoomForm
 
@@ -83,7 +84,6 @@ def signin_signup(request):
     if request.method == "POST":
         username = request.POST.get("username")
         password = request.POST.get("password")
-
         try:
             user = User.objects.get(username=username)
         except:
@@ -93,8 +93,13 @@ def signin_signup(request):
 
         if user is not None:
             print("Login sucesss...")
+            login(request, user)
             return redirect("home")
         else:
-            print("Login failed")
-
+            messages.error(request, "Username or password is incorrect !")
     return render(request, "base/signin_signup.html", {})
+
+
+def sign_out(request):
+    logout(request)
+    return redirect("home")
