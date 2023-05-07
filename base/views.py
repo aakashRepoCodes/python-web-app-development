@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.db.models import Q
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from .models import Room, Topic, User
 from .forms import RoomForm
@@ -85,6 +86,8 @@ def delete_room(request, pk):
 
 
 def signin_signup(request):
+    page = "login"
+    context = {"page": page}
     if request.method == "POST":
         username = request.POST.get("username")
         password = request.POST.get("password")
@@ -101,9 +104,27 @@ def signin_signup(request):
             return redirect("home")
         else:
             messages.error(request, "Username or password is incorrect !")
-    return render(request, "base/signin_signup.html", {})
+    return render(request, "base/signin_signup.html", context)
 
 
 def sign_out(request):
     logout(request)
     return redirect("home")
+
+
+def sign_up(request):
+    form = UserCreationForm()
+
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.username = user.username.lower()
+            user.save()
+            login(user=user, request=request)
+            return redirect("home")
+        else:
+            messages.error(request, "Error occured in registration...")
+
+    context = {"form": form}
+    return render(request, "base/signin_signup.html", context)
