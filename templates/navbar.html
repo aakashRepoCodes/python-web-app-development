@@ -12,6 +12,9 @@
 
 
 {% if request.user.is_authenticated %}
+
+<p>Hello {{request.user.username}}</p>
+
 <a href="/logout">
     <h3> Logout </h3>
 </a>
